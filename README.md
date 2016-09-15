@@ -7,7 +7,7 @@ pero en vez de utilizar los servidores de DigitalOcean he creado los scripts nec
 
 Se necesita tener previamente instalado Vagrant y Virtualbox
 
-1.  Crear el entorno de 3 servidores 
+1)  Crear el entorno de 3 servidores 
 
   vagrant up
 
@@ -18,6 +18,6 @@ Con ello tendremos 3 servidores disponibles (ubuntu/trusty32) y con todo el soft
 * srv03 ip: 10.3.3.103
 
 
-2. Lanzar el script que realiza la demostración de compartir sesiones
+2) Lanzar el script que realiza la demostración de compartir sesiones
 
   sh scripts/run_demo.sh
