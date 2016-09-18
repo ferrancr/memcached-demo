@@ -11,7 +11,9 @@ Así que en resumen tenemos:
 * Instalación y configuración con Vagrant.
 * Compartir sesiones PHP sobre multiples servidores con Memcached
 * Validar configuraciones utilizando tcp/sockets
-* Operaciones disponibles en php-memcached
+* Operaciones disponibles en php-memcache
+
+Antes de empezar con las instrucciones, es conveniente la siguiente aclaración, esto son demostraciones sencillas del uso de memcached, pero en la decisión de implementar o no dicha funcionalidad deben de entrar otras consideraciones, un buen punto de partida puede ser http://stackoverflow.com/questions/13946033/is-it-recommended-to-store-php-sessions-in-memcache
 
 ### Instalación y configuración
 
@@ -36,7 +38,7 @@ Lanzar el script (linux shell) que realiza la demostración de compartir sesione
 
   sh scripts/run_demo.sh
 
-run_demo realiza llamadas a las web utilizando curl, así que lo deberás de tener instalado o utilizar la solución para entornos Windows
+run_demo realiza llamadas a las webs utilizando curl, así que lo deberás de tener instalado o utilizar la solución para entornos Windows
 
 En Windows si se quiere lanzar la shell se puede hacer desde uno de los servidores:
 
@@ -61,6 +63,28 @@ Otra opción es probarlo desde uno de los servidores
    
    Mas información sobre el protocolo de memcached: http://blog.elijaa.org/2010/05/21/memcached-telnet-command-summary/
    
-### Operaciones disponibles en php-memcached
+### Operaciones disponibles en php-memcache
 
-próximamente
+En PHP existen dos clientes de memcached: memcache y memcached. En estas demostraciones utilizamos el memcache, que ha sido el que se ha instalado en los servidores.
+
+Hay 2 programas PHP que muestran el uso de la api memcache 
+* html/expire.php
+* html/multiserver.php
+
+Que pueden ser llamados mediante curl
+
+El expire.php almacena valores en memcached local del servidor por un tiempo limitado.
+Primero antes de lanzar la prueba hay llamar
+   curl 10.1.1.101/expire.php?save=1
+
+Despues ya se puede realizar la prueba. Lanzar curl 10.1.1.101/expire.php, e inmediatamente volverlo a lanzar, esperar unos 6 segundos y volverlo a lanzar.
+
+multiserver.php: es un ejemplo de uso compartido de memcaches.
+lanzar sucesivamente curl variando el servidor destino,
+   curl 10.1.1.101/multiserver.php
+   curl 10.2.2.102/multiserver.php
+   curl 10.3.3.103/multiserver.php
+No necesariamente han de ser en ese orden, ni todos han de ser a distintos servidores.
+
+El siguiente curl (da igual desde que servidor) que se lance vuelve a inicializar los valores, es independiente del servidor al que se realiza la petición, por ejemplo:
+   curl 10.3.3.103/multiserver.php
